@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /source_code.zip
+
+# "Dead men tell no tales, and ravens only look where they are allowed."
+# The Quartermaster's secret logic is stored at the path above.

@@ -1,0 +1,35 @@
+Challenge Details: Reachability
+AUTHOR: M.Ubaid Raza
+
+LEVEL OF DIFFICULTY: medium
+
+CATEGORY: Web / Logic / Formal Methods
+
+FLAG: Savvy{W1WJ_X_73CN0_F3$T}
+
+Description
+Shadow Ledger Corp has deployed a new “Proved Secure” Compliance Engine. Their Lead Architect claims the system is invulnerable because it relies on mathematically verified state transitions rather than traditional authentication.
+
+They proudly state that reaching the PIRATE LORD (S6) rank is formally impossible for any outsider. The frontend is merely a read-only dashboard — the real gatekeeper is the backend verifier.
+
+The system is deterministic. The constraints are absolute. And yet… a path may exist.
+
+A careless Quartermaster has left behind a digital copy of the Navigator's Rulebook (Source Code). You must analyze the logic within these files, calculate a valid path through the state machine, and convince the backend verifier that you have legitimately reached the final state.
+
+Navigator's Assets
+The Black Pearl Dashboard: A read-only view of the current system state.
+
+The Rulebook (source_code.zip): Contains the Python logic (state_machine.py, verifier.py, etc.) that governs the engine.
+
+The /appeal API: The only way to submit a manual trace for verification.
+
+Hints
+The Hidden Path: Some paths are blocked not because they are forbidden, but because no one expects them to be taken manually.
+
+The Ravens' Secret: If you cannot find the Rulebook on the deck, check where the ravens (bots) are forbidden to fly.
+
+Informative Errors: The system’s rejection messages are more informative than its silence — especially when an action is attempted the “wrong” way.
+
+Deterministic Outcome: When a system insists it is deterministic, the outcome depends only on whether the rules are satisfied, not on who provided the input.
+
+The Complete Story: If moving forward feels impossible, consider whether the verifier can be convinced by a complete trace (history) rather than a single step.

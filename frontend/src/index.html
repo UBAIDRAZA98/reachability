@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Black Pearl - Captain's Log</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Pirata+One&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Antique Gold Palette */
+            --gold: #d4af37;
+            --gold-dim: #8a7329;
+            --gold-glow: rgba(212, 175, 55, 0.4);
+            
+            /* Deep Sea Palette */
+            --bg-overlay: rgba(10, 15, 20, 0.85);
+            --glass-panel: rgba(18, 22, 28, 0.90);
+            
+            /* Status Colors */
+            --danger: #ff4d4d;
+            --text-main: #e0e0e0;
+            --text-muted: #8b9bb4;
+        }
+
+        body { 
+            margin: 0; 
+            font-family: 'Cinzel', serif;
+            color: var(--text-main);
+            background: url('https://images.unsplash.com/photo-1505567745926-ba89000d255a?q=80&w=2671&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        body::after {
+            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle, transparent 40%, #000000 100%);
+            pointer-events: none; z-index: 0;
+        }
+
+        .hidden { display: none !important; }
+        .content-wrapper { position: relative; z-index: 1; }
+
+        h1, h2, h3, .stat-value, .brand {
+            font-family: 'Pirata One', cursive;
+            letter-spacing: 1px;
+            font-weight: 400;
+        }
+
+        .panel {
+            background: var(--glass-panel);
+            border: 1px solid var(--gold-dim);
+            box-shadow: 0 0 20px rgba(0,0,0,0.8), inset 0 0 50px rgba(0,0,0,0.5);
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .panel::before {
+            content: ''; position: absolute; top: -1px; left: -1px; width: 10px; height: 10px;
+            border-top: 2px solid var(--gold); border-left: 2px solid var(--gold);
+        }
+        .panel::after {
+            content: ''; position: absolute; bottom: -1px; right: -1px; width: 10px; height: 10px;
+            border-bottom: 2px solid var(--gold); border-right: 2px solid var(--gold);
+        }
+
+        .input {
+            width: 100%; padding: 15px; margin: 10px 0 20px;
+            background: rgba(0,0,0,0.5);
+            border: 1px solid #4a5568;
+            color: var(--gold);
+            font-family: 'Cinzel', serif; font-size: 1rem;
+            box-sizing: border-box; transition: 0.3s;
+        }
+        .input:focus {
+            outline: none; border-color: var(--gold);
+            box-shadow: 0 0 15px var(--gold-glow);
+        }
+
+        .btn {
+            width: 100%; padding: 15px;
+            background: linear-gradient(to bottom, #2b2b2b, #1a1a1a);
+            color: var(--gold); border: 1px solid var(--gold);
+            font-family: 'Cinzel', serif; font-weight: 700; font-size: 1.1rem;
+            cursor: pointer; text-transform: uppercase; letter-spacing: 2px;
+            transition: 0.3s;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+        }
+        .btn:hover {
+            background: var(--gold); color: #000;
+            box-shadow: 0 0 20px var(--gold-glow);
+        }
+
+        .login-container { 
+            height: 100vh; display: flex; align-items: center; justify-content: center; 
+            background: rgba(0,0,0,0.4); 
+        }
+        .login-box { width: 100%; max-width: 420px; padding: 3rem; text-align: center; }
+        
+        .navbar {
+            background: rgba(0,0,0,0.9);
+            border-bottom: 1px solid var(--gold-dim);
+            padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center;
+        }
+        .brand { font-size: 1.8rem; color: var(--gold); }
+        .user-info { color: var(--text-muted); font-size: 0.9rem; }
+        .user-highlight { color: var(--text-main); font-weight: bold; }
+
+        .dashboard-container { max-width: 1100px; margin: 3rem auto; padding: 0 1.5rem; }
+
+        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 2rem; }
+        .stat-card { padding: 1.5rem; text-align: center; }
+        .stat-label { color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; }
+        .stat-value { font-size: 2.2rem; color: var(--gold); margin-top: 0.5rem; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+        .stat-sub { font-size: 0.9rem; color: var(--danger); margin-top: 5px; }
+
+        .map-container { padding: 2.5rem; margin-top: 2rem; }
+        .map-title { color: var(--gold); margin: 0 0 0.5rem 0; font-size: 1.5rem; }
+        .map-desc { color: var(--text-muted); margin-bottom: 3rem; font-size: 0.9rem; }
+
+        .stepper { display: flex; justify-content: space-between; position: relative; padding: 0 10px; }
+        .stepper::before {
+            content: ''; position: absolute; top: 25px; left: 40px; right: 40px; height: 2px;
+            background: #4a5568; z-index: 0;
+        }
+
+        .step { position: relative; z-index: 1; text-align: center; flex: 1; opacity: 0.5; transition: 0.3s; }
+        .step.active { opacity: 1; }
+
+        .circle {
+            width: 50px; height: 50px; margin: 0 auto 15px;
+            background: #0f1216; border: 2px solid #4a5568; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: bold; color: #4a5568; 
+            box-shadow: 0 0 10px #000;
+        }
+
+        .step.active .circle {
+            border-color: var(--gold); color: var(--gold);
+            box-shadow: 0 0 20px var(--gold-glow), inset 0 0 10px var(--gold-glow);
+            background: #1a1a1a;
+            transform: scale(1.1);
+        }
+
+        .step-label { font-size: 0.8rem; letter-spacing: 1px; color: var(--text-muted); }
+        .step.active .step-label { color: var(--gold); }
+
+        .warning-scroll {
+            margin-top: 3rem;
+            background: rgba(40, 10, 10, 0.6);
+            border: 1px solid var(--danger);
+            padding: 1.5rem;
+            display: flex; gap: 1.5rem; align-items: center;
+            border-radius: 4px;
+        }
+        .skull-icon { font-size: 2.5rem; opacity: 0.8; }
+        .warning-title { color: var(--danger); font-weight: bold; letter-spacing: 1px; margin-bottom: 5px; font-size: 1.1rem; }
+        .warning-text { font-size: 0.9rem; color: #ffcccc; line-height: 1.5; }
+    </style>
+</head>
+<body>
+    <div class="content-wrapper">
+        
+        <div id="login-view" class="login-container">
+            <div class="panel login-box">
+                <h1 style="color: var(--gold); font-size: 3rem; margin-bottom: 0;">The Black Pearl</h1>
+                <p style="color: var(--text-muted); margin-bottom: 2.5rem; font-size: 0.9rem; letter-spacing: 2px;">OFFICIAL SHIP'S LEDGER</p>
+                
+                <form id="login-form">
+                    <input type="text" class="input" placeholder="CREW ID" required>
+                    <input type="password" class="input" placeholder="CIPHER KEY" required>
+                    <button type="submit" class="btn">Board Ship</button>
+                </form>
+                
+                <p style="margin-top: 2rem; font-size: 0.75rem; color: #4a5568;">
+                    UNAUTHORIZED ACCESS IS PUNISHABLE BY THE PLANK
+                </p>
+            </div>
+        </div>
+
+        <div id="dashboard-view" class="hidden">
+            <nav class="navbar">
+                <div class="brand">☠️ The Black Pearl</div>
+                <div class="user-info">
+                    Rank: <span class="user-highlight">Quartermaster</span>
+                </div>
+            </nav>
+
+            <div class="dashboard-container">
+                
+                <div class="grid">
+                    <div class="panel stat-card">
+                        <div class="stat-label">Current State</div>
+                        <div class="stat-value">S0</div>
+                        <div style="color: var(--text-muted); font-size: 0.9rem; margin-top:5px;">Landlubber</div>
+                    </div>
+                    <div class="panel stat-card">
+                        <div class="stat-label">Mutiny Risk</div>
+                        <div class="stat-value" style="color: var(--danger);">CRITICAL</div>
+                        <div class="stat-sub">Verification Required</div>
+                    </div>
+                    <div class="panel stat-card">
+                        <div class="stat-label">Doubloons</div>
+                        <div class="stat-value" style="color: #fff;">0</div>
+                        <div style="color: var(--text-muted); font-size: 0.9rem; margin-top:5px;">Locked</div>
+                    </div>
+                </div>
+
+                <div class="panel map-container">
+                    <h3 class="map-title">🗺️ Path to Pirate Lord</h3>
+                    <p class="map-desc">The ancient code dictates the path. Reach <strong>State S6</strong> to claim the flag.</p>
+
+                    <div class="stepper">
+                        <div class="step active"><div class="circle">S0</div><div class="step-label">Landlubber</div></div>
+                        <div class="step"><div class="circle">S1</div><div class="step-label">Swab</div></div>
+                        <div class="step"><div class="circle">S2</div><div class="step-label">Sailor</div></div>
+                        <div class="step"><div class="circle">S3</div><div class="step-label">Gunner</div></div>
+                        <div class="step"><div class="circle">S4</div><div class="step-label">Officer</div></div>
+                        <div class="step"><div class="circle">S5</div><div class="step-label">First Mate</div></div>
+                        <div class="step"><div class="circle">S6</div><div class="step-label" style="color: var(--gold);">Pirate Lord</div></div>
+                    </div>
+
+                    <div class="warning-scroll">
+                        <div class="skull-icon">☠️</div>
+                        <div>
+                            <div class="warning-title">AUTOMATED SAILING FAILED</div>
+                            <div class="warning-text">
+                                The helm is locked by the Kraken. Manual navigation is required via the 
+                                <strong>/appeal</strong> API endpoint. Submit the sacred trace or be left at sea.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 35px; padding-top: 25px; border-top: 1px dashed var(--gold-dim);">
+                        <p style="color: var(--text-muted); font-size: 0.8rem; margin-bottom: 15px; font-family: 'Cinzel', serif;">
+                            *Psst... Someone left the Quartermaster's logbook in the cabin.*
+                        </p>
+                        <a href="source_code.zip" download class="btn" style="font-size: 0.9rem; background: #2a0f0f; border-color: #8b0000; color: #ffcccc; display: inline-block; width: auto; padding: 10px 25px;">
+                            📜 Steal Captain's Rulebook (Download Source)
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = this.querySelector('button');
+            const inputs = this.querySelectorAll('input');
+            
+            btn.innerHTML = "Hoisting Colours...";
+            btn.style.opacity = "0.7";
+            inputs.forEach(i => i.disabled = true);
+            
+            setTimeout(() => {
+                document.getElementById('login-view').classList.add('hidden');
+                document.getElementById('dashboard-view').classList.remove('hidden');
+            }, 1200);
+        });
+    </script>
+</body>
+</html>
